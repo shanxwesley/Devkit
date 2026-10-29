@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Code2 } from 'lucide-react'
+import { Code2, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth'
 
-const inputClass = 'mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
+const inputClass =
+  'mt-1.5 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/30'
 
 export function Signup() {
   const { signUp } = useAuth()
@@ -23,11 +24,11 @@ export function Signup() {
     setInfo(null)
 
     if (password.length < 6) {
-      setError('Dapat at least 6 characters ang password.')
+      setError('Password must be at least 6 characters.')
       return
     }
     if (password !== confirm) {
-      setError('Hindi magkapareho ang password.')
+      setError('Passwords do not match.')
       return
     }
 
@@ -38,22 +39,24 @@ export function Signup() {
     if (result.error) {
       setError(result.error)
     } else if (result.needsConfirmation) {
-      setInfo('Tingnan ang email mo at i-click ang confirmation link bago mag-sign in.')
+      setInfo('Check your email and click the confirmation link before signing in.')
     } else {
       navigate('/dashboard', { replace: true })
     }
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <Code2 className="mx-auto h-10 w-10 text-primary" />
-          <h1 className="mt-4 text-2xl font-bold">Create your account</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Libre ang core tools. Mag-sign up sa loob ng isang minuto.</p>
+    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 text-center">
+          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-soft">
+            <Code2 className="h-6 w-6" />
+          </span>
+          <h1 className="mt-5 text-2xl font-bold tracking-tight">Create your account</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">Free tools are always free. No credit card needed.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-xl border bg-card p-6 space-y-4 shadow-soft">
+        <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border bg-card p-6 shadow-soft">
           <div>
             <label htmlFor="email" className="text-sm font-medium">Email</label>
             <input
@@ -67,6 +70,7 @@ export function Signup() {
               placeholder="you@example.com"
             />
           </div>
+
           <div>
             <label htmlFor="password" className="text-sm font-medium">Password</label>
             <input
@@ -77,8 +81,10 @@ export function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={inputClass}
+              placeholder="At least 6 characters"
             />
           </div>
+
           <div>
             <label htmlFor="confirm" className="text-sm font-medium">Confirm password</label>
             <input
@@ -92,16 +98,25 @@ export function Signup() {
             />
           </div>
 
-          {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-          {info && <p className="text-sm text-primary">{info}</p>}
+          {error && (
+            <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {error}
+            </p>
+          )}
+          {info && (
+            <p className="flex items-start gap-2 rounded-lg bg-primary/10 px-3 py-2 text-sm text-primary">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+              {info}
+            </p>
+          )}
 
-          <Button type="submit" className="w-full" disabled={submitting}>
+          <Button type="submit" className="w-full" size="lg" disabled={submitting}>
             {submitting ? 'Creating account…' : 'Create account'}
           </Button>
         </form>
 
-        <p className="text-center text-sm text-muted-foreground">
-          May account ka na?{' '}
+        <p className="mt-6 text-center text-sm text-muted-foreground">
+          Already have an account?{' '}
           <Link to="/login" className="font-medium text-primary hover:underline">
             Sign in
           </Link>
