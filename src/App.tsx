@@ -22,13 +22,14 @@ export default function App() {
           <Route path="/tools/:toolId" element={<ToolPage />} />
         </Routes>
       </main>
-      <footer className="border-t bg-muted/20">
-        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-6 text-sm text-muted-foreground">
-          <span>© {new Date().getFullYear()} DevKit · Built with ❤️ for developers & students</span>
-          <div className="flex items-center gap-4">
-            <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
-            <Link to="/tools/json-formatter" className="hover:text-foreground transition-colors">Tools</Link>
-          </div>
+      <footer className="border-t">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row">
+          <p>© {new Date().getFullYear()} DevKit. All rights reserved.</p>
+          <nav className="flex items-center gap-6">
+            <Link to="/" className="transition-colors hover:text-foreground">Tools</Link>
+            <Link to="/pricing" className="transition-colors hover:text-foreground">Pricing</Link>
+            <Link to="/login" className="transition-colors hover:text-foreground">Sign in</Link>
+          </nav>
         </div>
       </footer>
       <ToastContainer />
